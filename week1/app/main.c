@@ -13,7 +13,7 @@
 #define DS0 0x60000110
 
 
-static uint8_t seven_segment_lut[16] = {
+static const uint8_t seven_segment_lut[16] = {
 	0b11000000, // 0
 	0b11111001,
 	0b10100100,
