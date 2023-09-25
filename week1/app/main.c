@@ -6,10 +6,10 @@
 #include "utils_ctboard.h"
 
 
-#define DIP 0x60000200
-#define LED 0x60000100
+#define DIP_0_7 0x60000200
+#define LED_0_7 0x60000100
 
-#define ROT_SWITCH 0x60000211
+#define HEX_SWITCH 0x60000211
 #define DS0 0x60000110
 
 
@@ -35,10 +35,10 @@ static const uint8_t seven_segment_lut[16] = {
 int main(void)
 {	
 	while(1){
-		uint32_t io = read_word(DIP);
-		write_word(LED, io);
+		uint32_t io = read_word(DIP_0_7);
+		write_word(LED_0_7, io);
 		
-		uint8_t current = read_byte(ROT_SWITCH);
+		uint8_t current = read_byte(HEX_SWITCH);
 		write_byte(DS0, seven_segment_lut[current & 0x0F]);
 	}
 }
