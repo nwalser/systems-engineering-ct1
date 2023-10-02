@@ -45,6 +45,7 @@ AREA MyCode, CODE, READONLY
 # Task 5
 A1: It depends on the endianess of the processor.
 A2: It depends on the architecture of the processor. If it is a 64bit architecture the memory can only be divided into sections of size 4bytes. Therefore if a section can not be used completely it will get padded with zeros.
+The actual address is only known after linking
 
 # Task 6
 Variable Name   | Content       | Start address
@@ -64,7 +65,9 @@ A5      | LDR R7, =addr_dip_switch          | 0x0800221c
 A6      | LDR R1, [R7, #4]                  | 0x12345678
 A7      | LDR R3, [R7, R6]                  | 0x34567890
 
-# Task 8
-Todo
-
 # Task 9
+1. Set breakpoint on line 97
+2. Set memory at this location to these bytes.
+0x2000 0000 67 45 23 01 78 56 34 12 **55 55 55 55**
+3. Set breakpoint at line 104
+4. Run programm to line 104
