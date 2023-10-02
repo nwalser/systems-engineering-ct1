@@ -41,3 +41,30 @@ AREA MyAsmConst, DATA, READONLY
 
 AREA MyCode, CODE, READONLY
 0x48 bytes
+
+# Task 5
+A1: It depends on the endianess of the processor.
+A2: It depends on the architecture of the processor. If it is a 64bit architecture the memory can only be divided into sections of size 4bytes. Therefore if a section can not be used completely it will get padded with zeros.
+
+# Task 6
+Variable Name   | Content       | Start address
+add_dip_switch  | 0x60000200    | 0x0800221c
+const_table[0]  | 0x01234567    | 0x08002220
+const_table[1]  | 0x12345678    | 0x08002222
+const_table[2]  | 0x99996666    | 0x08002224
+const_table[3]  | 0x34567890    | 0x08002226
+
+# Task 7
+Line    | Instruction                       | Content of target register
+A1      | MOVS R1, #0xfe                    | 0xFE
+A2      | MOV R11, R2                       | 0x12
+A3      | LDR R3, =ADDR_DIP_SWITCH_31_0     | 0x60000200
+A4      | LDR R7, addr_dip_switch           | 0x60000200
+A5      | LDR R7, =addr_dip_switch          | 0x0800221c
+A6      | LDR R1, [R7, #4]                  | 0x12345678
+A7      | LDR R3, [R7, R6]                  | 0x34567890
+
+# Task 8
+Todo
+
+# Task 9
