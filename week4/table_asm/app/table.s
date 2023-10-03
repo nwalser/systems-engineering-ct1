@@ -36,10 +36,7 @@ BITMASK_LOWER_NIBBLE        EQU     0x0F
 ; ------------------------------------------------------------------
         AREA MyAsmVar, DATA, READWRITE
 ; STUDENTS: To be programmed
-
-
-
-
+store_table             SPACE   16  ; reserve 16 bytes
 ; END: To be programmed
         ALIGN
 
@@ -55,9 +52,43 @@ readInput
         BL    waitForKey                    ; wait for key to be pressed and released
 ; STUDENTS: To be programmed
 
-
-
-
+;INPUT section
+		; load index
+		LDR R7, =ADDR_DIP_SWITCH_15_8
+		LDR R2, [R7] ; read switch 15 to 7 values
+		LDR R7, =BITMASK_LOWER_NIBBLE
+		ANDS R2, R2, R7 ; mask index input
+		; display index
+		LDR R7, =ADDR_LED_15_8
+		STR R2, [R7]
+		
+		; load value
+		LDR R7, =ADDR_DIP_SWITCH_7_0
+		LDR R1, [R7] ; read switch 7 to 0 values
+		; display value
+		LDR R7, =ADDR_LED_7_0
+		STR R1, [R7]
+		; store value
+		LDR R7, =store_table
+		STR R1, [R7, R2] ; store into table with offset
+		
+; OUTPUT section
+		; load index
+		LDR R7, =ADDR_DIP_SWITCH_31_24
+		LDR R2, [R7] ; read switch 31 to 24 values
+		LDR R7, =BITMASK_LOWER_NIBBLE
+		ANDS R2, R2, R7 ; mask index input
+		; display index
+		LDR R7, =ADDR_LED_31_24
+		STR R2, [R7]
+		
+		; load value
+		LDR R7, =store_table
+		LDR R1, [R7, R2] ; load from table with offset
+		; display value
+		LDR R7, =ADDR_LED_23_16
+		STR R1, [R7]
+		
 ; END: To be programmed
         B       readInput
         ALIGN
