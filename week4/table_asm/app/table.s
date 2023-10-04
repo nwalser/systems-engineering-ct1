@@ -55,39 +55,39 @@ readInput
 ;INPUT section
 		; load index
 		LDR R7, =ADDR_DIP_SWITCH_15_8
-		LDR R2, [R7] ; read switch 15 to 7 values
+		LDRB R2, [R7] ; read switch 15 to 7 values
 		LDR R7, =BITMASK_LOWER_NIBBLE
 		ANDS R2, R2, R7 ; mask index input
 		; display index
 		LDR R7, =ADDR_LED_15_8
-		STR R2, [R7]
+		STRB R2, [R7]
 		
 		; load value
 		LDR R7, =ADDR_DIP_SWITCH_7_0
-		LDR R1, [R7] ; read switch 7 to 0 values
+		LDRB R1, [R7] ; read switch 7 to 0 values
 		; display value
 		LDR R7, =ADDR_LED_7_0
-		STR R1, [R7]
+		STRB R1, [R7]
 		; store value
 		LDR R7, =store_table
-		STR R1, [R7, R2] ; store into table with offset
+		STRB R1, [R7, R2] ; store into table with offset
 		
 ; OUTPUT section
 		; load index
 		LDR R7, =ADDR_DIP_SWITCH_31_24
-		LDR R2, [R7] ; read switch 31 to 24 values
+		LDRB R2, [R7] ; read switch 31 to 24 values
 		LDR R7, =BITMASK_LOWER_NIBBLE
 		ANDS R2, R2, R7 ; mask index input
 		; display index
 		LDR R7, =ADDR_LED_31_24
-		STR R2, [R7]
+		STRB R2, [R7]
 		
 		; load value
 		LDR R7, =store_table
-		LDR R1, [R7, R2] ; load from table with offset
+		LDRB R1, [R7, R2] ; load from table with offset
 		; display value
 		LDR R7, =ADDR_LED_23_16
-		STR R1, [R7]
+		STRB R1, [R7]
 		
 ; END: To be programmed
         B       readInput
