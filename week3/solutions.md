@@ -51,9 +51,9 @@ The actual address is only known after linking
 Variable Name   | Content       | Start address
 add_dip_switch  | 0x60000200    | 0x0800221c
 const_table[0]  | 0x01234567    | 0x08002220
-const_table[1]  | 0x12345678    | 0x08002222
-const_table[2]  | 0x99996666    | 0x08002224
-const_table[3]  | 0x34567890    | 0x08002226
+const_table[1]  | 0x12345678    | 0x08002224
+const_table[2]  | 0x99996666    | 0x08002228
+const_table[3]  | 0x34567890    | 0x0800222c
 
 # Task 7
 Line    | Instruction                       | Content of target register
