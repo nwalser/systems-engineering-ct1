@@ -40,7 +40,7 @@ AREA MyAsmConst, DATA, READONLY
 0x14 bytes
 
 AREA MyCode, CODE, READONLY
-0x48 bytes
+0x48 bytes + Literal pool 5 * 4 bytes
 
 # Task 5
 A1: It depends on the endianess of the processor.
