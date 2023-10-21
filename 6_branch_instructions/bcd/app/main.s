@@ -45,10 +45,74 @@ main    PROC
         export main
             
 ; STUDENTS: To be programmed
+		; load values
+		LDR R0, =ADDR_DIP_SWITCH_7_0
+		LDRB R1, [R0]
+		LDR R0, =ADDR_DIP_SWITCH_15_8
+		LDRB R2, [R0]
+		
+		; display combined
+		MOVS R3, R2
+		LSLS R3, #4
+		ADDS R3, R3, R1
+		
+		LDR R0, =ADDR_LED_15_0
+		STRB R3, [R0]
+		
+		LDR R0, =ADDR_7_SEG_BIN_DS3_0
+		STRB R3, [R0, #0]
+		
+		; decide with without muls
+		LDR R0, =ADDR_BUTTONS
+		LDR R0, [R0]
+		LSLS R0, #31
+		LSRS R0, #31
 
+		CMP R0, #0
+		BEQ with_muls
 
+		LDR     R7, =ADDR_LCD_RED
+        LDR     R6, =LCD_BACKLIGHT_FULL
+        STRH    R6, [R7]
+		LDR     R7, =ADDR_LCD_BLUE
+        LDR     R6, =LCD_BACKLIGHT_OFF
+        STRH    R6, [R7]
+			
+		; multiplication by 10
+		MOVS R3, R2
+		LSLS R3, #3 ; multiply by 8
+		ADDS R3, R2, R3
+		ADDS R2, R2, R3
 
+		B finished_muls
 
+with_muls
+		LDR     R7, =ADDR_LCD_BLUE
+        LDR     R6, =LCD_BACKLIGHT_FULL
+        STRH    R6, [R7]
+		LDR     R7, =ADDR_LCD_RED
+        LDR     R6, =LCD_BACKLIGHT_OFF
+        STRH    R6, [R7]
+
+		; multiplication by 10
+		MOVS R3, #10
+		MULS R2, R3, R2
+		
+		B finished_muls		
+
+finished_muls
+		ADDS R3, R1, R2
+		
+		LDR R0, =ADDR_LED_15_0
+		STRB R3, [R0, #1]
+
+		LDR R0, =ADDR_7_SEG_BIN_DS3_0
+		STRB R3, [R0, #1]
+
+		B main
+		
+
+		
 ; END: To be programmed
 
         B       main
