@@ -18,6 +18,13 @@
         THUMB
 
 ; ------------------------------------------------------------------
+; -- Variables
+; ------------------------------------------------------------------
+		AREA MyAsmVar, DATA, READWRITE
+counter             SPACE   1
+		ALIGN
+
+; ------------------------------------------------------------------
 ; -- Address Defines
 ; ------------------------------------------------------------------
 
@@ -54,7 +61,7 @@ main    PROC
 		; display combined
 		MOVS R3, R2
 		LSLS R3, #4
-		ADDS R3, R3, R1
+		ORRS R3, R3, R1
 		
 		LDR R0, =ADDR_LED_15_0
 		STRB R3, [R0]
@@ -68,6 +75,7 @@ main    PROC
 		LSLS R0, #31
 		LSRS R0, #31
 
+; do multiplication of values with 10 ------------------------
 		CMP R0, #0
 		BEQ with_muls
 
@@ -109,9 +117,55 @@ finished_muls
 		LDR R0, =ADDR_7_SEG_BIN_DS3_0
 		STRB R3, [R0, #1]
 
-		B main
-		
 
+; count active bits ---------------------------------
+		MOVS R2, #0
+		MOVS R1, #0
+
+		B count_cond
+count_loop
+		LSLS R3, #1
+		ADCS R2, R2, R1
+count_cond
+		CMP R3, #0
+		BNE count_loop
+
+; create byte padded with ones ----------------------
+		MOVS R1, #0
+		MOVS R3, #1
+
+		B pad_cond
+pad_loop
+		LSLS R1, #1
+		ORRS R1, R1, R3
+		SUBS R2, R2, #1
+pad_cond
+		CMP R2, #0
+		BNE pad_loop
+
+; display on upper leds with rotation ---------------
+		
+; increment counter
+		LDR R0, =counter
+		LDRB R2, [R0]
+		ADDS R2, R2, #1
+		
+		LSLS R2, #28
+		LSRS R2, #28
+		
+		STRB R2, [R0]
+		
+; shift and display value by counter
+		MOVS R3, R1
+		LSLS R3, #16
+		ORRS R1, R3, R1
+
+		RORS R1, R1, R2
+
+		LDR R0, =ADDR_LED_31_16
+		STRH R1, [R0]
+		
+		BL pause
 		
 ; END: To be programmed
 
