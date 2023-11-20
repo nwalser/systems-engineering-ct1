@@ -95,7 +95,7 @@ main_loop
 		SUBS R3, R3, R2 ; R3: store subtracted adc value
 
 		; test for cases
-		CMP R1, #0
+		CMP R1, #1
 		BEQ case_green
 		
 		CMP R3, #0
