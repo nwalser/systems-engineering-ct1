@@ -8,7 +8,7 @@ Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
 License Information: Nathaniel Walser
 ZHAW
 User-based license: Keil MDK Community
-Valid until: Jun 1 2033. Cached until: Dec 11 2023
+Valid until: Jun 1 2033. Cached until: Dec 18 2023
  
 Tool Versions:
 Toolchain:       Keil MDK Community  Version: 5.38.0.0
@@ -30,6 +30,7 @@ Project File Date:  12/05/2023
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
+assembling datainit_ctboard.s...
 assembling startup_ctboard.s...
 app/main.c(48): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
 int main()
@@ -37,11 +38,10 @@ int main()
          void
 1 warning generated.
 compiling main.c...
-assembling datainit_ctboard.s...
 compiling toggle.c...
-compiling hal_gpio.c...
-compiling hal_fmc.c...
 compiling system_ctboard.c...
+compiling hal_fmc.c...
+compiling hal_gpio.c...
 compiling hal_pwr.c...
 compiling hal_rcc.c...
 linking...
@@ -69,24 +69,24 @@ Package Vendor: InES
 <h2>Collection of Component Files used:</h2>
 
    * Component: InES::Device:Startup:4.0.4
-      Include file:  Device/Include/reg_stm32f4xx.h
-      Source file:   Device/Source/startup_ctboard.s
       Include file:  Device/Include/m0/platform_ctboard.h
-      Include file:  Device/Include/reg_ctboard.h
+      Include file:  Device/Include/system_ctboard.h
       Source file:   Device/Source/datainit_ctboard.s
       Source file:   Device/Source/system_ctboard.c
-      Include file:  Device/Include/system_ctboard.h
+      Source file:   Device/Source/startup_ctboard.s
+      Include file:  Device/Include/reg_stm32f4xx.h
+      Include file:  Device/Include/reg_ctboard.h
 
    * Component: InES::HAL:FMC:4.0.4
       Include file:  HAL/Include/hal_fmc.h
-      Source file:   HAL/Source/hal_fmc.c
       Include file:  Device/Include/reg_stm32f4xx.h
+      Source file:   HAL/Source/hal_fmc.c
       Include file:  HAL/Include/hal_common.h
 
    * Component: InES::HAL:GPIO:4.0.4
       Include file:  Device/Include/reg_stm32f4xx.h
-      Source file:   HAL/Source/hal_gpio.c
       Include file:  HAL/Include/hal_common.h
+      Source file:   HAL/Source/hal_gpio.c
       Include file:  HAL/Include/hal_gpio.h
 
    * Component: InES::HAL:PWR:4.0.4
@@ -97,9 +97,9 @@ Package Vendor: InES
 
    * Component: InES::HAL:RCC:4.0.4
       Include file:  HAL/Include/hal_common.h
-      Include file:  Device/Include/reg_stm32f4xx.h
-      Include file:  HAL/Include/hal_rcc.h
       Source file:   HAL/Source/hal_rcc.c
+      Include file:  HAL/Include/hal_rcc.h
+      Include file:  Device/Include/reg_stm32f4xx.h
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

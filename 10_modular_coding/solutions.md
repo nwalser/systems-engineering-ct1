@@ -18,8 +18,8 @@ fromelf.exe befindet sich abweichen der Dokumentation am Ort: C:\Keil_v5\ARM\ARM
 
 ## Symbole
 Lokale Symbole: Lc
-Importierte Symbole: Gb
-Exportierte Symbole: Gb  Ref
+Importierte Symbole: Gb Ref
+Exportierte Symbole: Gb
 
 ## Einträge die nicht im Header File Stehen
 Das können Symbole sein die zum Beispiel vom Compiler generiert wurden/benötigt werden.

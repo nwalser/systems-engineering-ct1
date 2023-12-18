@@ -1,19 +1,3 @@
-;* ----------------------------------------------------------------------------
-;* --  _____       ______  _____                                              -
-;* -- |_   _|     |  ____|/ ____|                                             -
-;* --   | |  _ __ | |__  | (___    Institute of Embedded Systems              -
-;* --   | | | '_ \|  __|  \___ \   Zurich University of                       -
-;* --  _| |_| | | | |____ ____) |  Applied Sciences                           -
-;* -- |_____|_| |_|______|_____/   8401 Winterthur, Switzerland               -
-;* ----------------------------------------------------------------------------
-;* --
-;* -- Project     : CT1 - Lab 12
-;* -- Description : Reading the User-Button as Interrupt source
-;* -- 				 
-;* -- $Id: main.s 5082 2020-05-14 13:56:07Z akdi $
-;* -- 		
-;* ----------------------------------------------------------------------------
-
 
                 IMPORT init_measurement
                 IMPORT clear_IRQ_EXTI0
@@ -39,28 +23,28 @@ REG_SETENA0         EQU  0xe000e100
 ; -----------------------------------------------------------------------------             
 main            PROC
                 EXPORT main
-
-
+					
                 BL   init_measurement    
 
                 ; Configure NVIC (enable interrupt channel)
-                ; STUDENTS: To be programmed
 
-
-                ; END: To be programmed 
+				LDR R0, =REG_SETENA0
+				MOVS R1, #0x40 ;lade 0100'0000 also IRQ6 = 1 setzen
+				LDR R2, =0x10000000
+				ORRS R1, R1, R2 ;lade IRQ28 = 1
+				STR R1, [R0]
 
                 ; Initialize variables
                 ; STUDENTS: To be programmed	
-
-
-                ; END: To be programmed
-
-loop
-                ; Output counter on 7-seg
-                ; STUDENTS: To be programmed
-
+				MOVS R7, #0x0 ;lade 0 zum R7, der dann die blinkende LEDS übernimmt
 
                 ; END: To be programmed
+
+loop			
+				;bonus: lade global high score zum 7seg + 1 Byte (linken zwei anzeigen)
+				LDR R1, =glob_h_s
+				LDR R2, [R1]
+				STRB R2, [R0, #1]
 
                 B    loop
 
@@ -69,20 +53,43 @@ loop
 ; -----------------------------------------------------------------------------
 ; Handler for EXTI0 interrupt
 ; -----------------------------------------------------------------------------
-                 ; STUDENTS: To be programmed
 
-
-                 ; END: To be programmed
+EXTI0_IRQHandler PROC
+				EXPORT EXTI0_IRQHandler
+					
+				;Link Register auf den Stack legen, da er noch beim Sprung nach clear_IRQ überschrieben wird
+				PUSH {LR}	
+				
+				;zaehler laden und +1 zaehlen
+				LDR R0, =zaehler
+				LDR R1, [R0]
+				ADDS R1, #1
+				STR R1, [R0]
+				
+				;interrupt clearen und zurück springen
+				BL clear_IRQ_EXTI0
+				POP {PC}
+				
+				ENDP
 
  
 ; -----------------------------------------------------------------------------                   
 ; Handler for TIM2 interrupt
 ; -----------------------------------------------------------------------------
-                ; STUDENTS: To be programmed
 
-
-                ; END: To be programmed
-                ALIGN
+TIM2_IRQHandler PROC
+				EXPORT TIM2_IRQHandler
+				PUSH {LR}	
+                
+				;toggle R7 (variable für die leds)
+				MVNS R7, R7
+				LDR R0, =LED_16_31
+				STRH R7, [R0]
+				
+				BL clear_IRQ_TIM2
+				POP {PC}
+				ENDP
+				ALIGN
 
 ; -----------------------------------------------------------------------------
 ; -- Variables
@@ -90,10 +97,9 @@ loop
 
                 AREA myVars, DATA, READWRITE
 
-                ; STUDENTS: To be programmed
+zaehler		DCD		0x0
+glob_h_s	DCD		0x0
 
-
-                ; END: To be programmed
 
 
 ; -----------------------------------------------------------------------------
